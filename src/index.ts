@@ -1,5 +1,6 @@
-import "dotenv/config"
+import "dotenv/config";
 import express from "express";
+import { AppDataSource } from "./dataSource.js";
 
 const app = express();
 
@@ -8,5 +9,9 @@ app.get("/", (req, res) => {
 });
 
 app.listen(process.env.SERVER_PORT, () => {
-    console.log("Server running on http://localhost:3000");
+    console.log(`Server running on http://localhost:${process.env.SERVER_PORT}`);
 });
+
+AppDataSource.initialize().then(() => {
+    console.log("Done");
+}).catch((err) => console.log(err));
