@@ -1,12 +1,15 @@
 import express from "express";
 import { envs } from "./configs/env.config.js";
+import { router } from "./routes/index.js";
 import { appDataSource } from "./configs/orm.config.js";
 
-export const app = express();
+const app = express();
 
-app.listen(process.env.SERVER_PORT, () => {
+app.listen(envs.APP_PORT, () => {
     console.log(`Server running on http://localhost:${envs.APP_PORT}`);
 });
+
+app.use("/", router);
 
 appDataSource.initialize().then(() => {
     console.log("PostgreSQL database connected");
