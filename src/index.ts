@@ -1,17 +1,13 @@
-import "dotenv/config";
 import express from "express";
-import { AppDataSource } from "./dataSource.js";
+import { envs } from "./configs/env.config.js";
+import { appDataSource } from "./configs/orm.config.js";
 
-const app = express();
-
-app.get("/", (req, res) => {
-    res.send("Hello World!");
-});
+export const app = express();
 
 app.listen(process.env.SERVER_PORT, () => {
-    console.log(`Server running on http://localhost:${process.env.SERVER_PORT}`);
+    console.log(`Server running on http://localhost:${envs.APP_PORT}`);
 });
 
-AppDataSource.initialize().then(() => {
-    console.log("Done");
+appDataSource.initialize().then(() => {
+    console.log("PostgreSQL database connected");
 }).catch((err) => console.log(err));
