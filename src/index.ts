@@ -9,7 +9,8 @@ app.listen(envs.APP_PORT, () => {
     console.log(`Server running on http://localhost:${envs.APP_PORT}`);
 });
 
-app.use("/", router);
+app.use(express.json());
+app.use(router);
 
 appDataSource.initialize().then(() => {
     console.log("PostgreSQL database connected");
