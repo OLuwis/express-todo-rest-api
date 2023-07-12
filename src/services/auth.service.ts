@@ -1,14 +1,14 @@
 import bcrypt from "bcrypt";
 import jsonwebtoken from "jsonwebtoken";
 import { Response } from "express";
-import { User } from "../models/users.model.js";
+import { Users } from "../models/users.model.js";
 import { appDataSource } from "../configs/orm.config.js";
 
-const user = new User();
+const user = new Users();
 
 export class AuthService {
-    signUp( username: string, password: string, res: Response ) {
-        bcrypt.genSalt(10, ( err, salt ) => {
+    async signUp( username: string, password: string, res: Response ) {
+        await bcrypt.genSalt(10, ( err, salt ) => {
             bcrypt.hash(password, salt, ( err, hash ) => {
                 user.username = username;
                 user.salt = salt;
@@ -20,7 +20,7 @@ export class AuthService {
     };
 
     async login( username: string, password: string, res: Response ) {
-        const user = await appDataSource.manager.findOneBy( User, { username: username } );
+        const user = await appDataSource.manager.findOneBy( Users, { username: username } );
         const dbPassword = <string>user?.password;
         const result = await bcrypt.compare( password, dbPassword );
         if ( result ) {

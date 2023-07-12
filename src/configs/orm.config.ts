@@ -1,6 +1,7 @@
 import "reflect-metadata";
 import { DataSource } from "typeorm";
-import { User } from "../models/users.model.js";
+import { Users } from "../models/users.model.js";
+import { Todos } from "../models/todos.model.js";
 import { envs } from "./env.config.js";
 
 export const appDataSource = new DataSource ({
@@ -10,7 +11,7 @@ export const appDataSource = new DataSource ({
     username: envs.DB_USERNAME,
     password: envs.DB_PASSWORD,
     database: envs.DB_NAME,
-    entities: [ User ],
+    entities: [ Users, Todos ],
     synchronize: true,
     logging: false
 });
