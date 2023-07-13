@@ -1,23 +1,37 @@
 import { Request, Response } from "express";
+import { Todos } from "../models/todos.model.js";
+import { appDataSource } from "../configs/orm.config.js";
+
+const todosRepository = appDataSource.getRepository(Todos);
 
 export class TodoController {
-    viewTodo( req: Request, res: Response ) {
-
+    async viewTodo( req: Request, res: Response ) {
+        const todos = await todosRepository.findBy({ todoUserId: parseInt(req.params.id) });
+        console.log(todos);
+        res.send("All todos!");
     };
 
-    createTodo( req: Request, res: Response ) {
-
+    async createTodo( req: Request, res: Response ) {
+        const todos = new Todos();
+        const todo = <string>req.query.todo;
+        todos.todo = todo;
+        todos.todoUserId = 1;
+        await todosRepository.save(todos);
+        res.send("Todo created!");
     };
 
-    deleteTodo( req: Request, res: Response ) {
-
+    async deleteTodo( req: Request, res: Response ) {
+        await todosRepository.delete(req.params.id);
+        res.send("Todo deleted!");
     };
 
-    updateTodo( req: Request, res: Response ) {
-
+    async updateTodo( req: Request, res: Response ) {
+        await todosRepository.update(req.params.id, { todo: <string>req.query.todo });
+        res.send("Todo updated!");
     };
 
-    completeTodo( req: Request, res: Response ) {
-
+    async completeTodo( req: Request, res: Response ) {
+        await todosRepository.update(req.params.id, { todoCompleted: true });
+        res.send("Todo completed!");
     };
 };

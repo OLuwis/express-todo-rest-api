@@ -1,20 +1,17 @@
 import { Entity, PrimaryGeneratedColumn, Column, Index } from "typeorm";
 
-@Entity()
+@Entity({ name: "Todos" })
 export class Todos {
     @PrimaryGeneratedColumn()
     id: number
 
     @Column({ length: 50 })
-    todoTitle: string
-
-    @Column({ length: 300 })
-    todoDesc: string
+    todo: string
 
     @Index()
     @Column()
     todoUserId: number
 
-    @Column()
+    @Column({ default: false })
     todoCompleted: boolean
 };
