@@ -4,23 +4,27 @@ import { Response } from "express";
 import { Users } from "../models/users.model.js";
 import { appDataSource } from "../configs/orm.config.js";
 
-const user = new Users();
+const usersRepository = appDataSource.getRepository(Users);
 
 export class AuthService {
-    async signUp( username: string, password: string, res: Response ) {
-        await bcrypt.genSalt(10, ( err, salt ) => {
-            bcrypt.hash(password, salt, ( err, hash ) => {
-                user.username = username;
-                user.salt = salt;
-                user.password = hash;
-                appDataSource.manager.save(user);
-                res.send("Successfully registred!");
+    signUp( username: string, password: string, res: Response ) {
+        bcrypt.genSalt(10, (err, salt) => {
+            if (err) {
+                return res.status(200).send(`Password Encryption Error: ${err}`);
+            };
+            bcrypt.hash(password, salt, (err, hashed) => {
+                if (err) {
+                    return res.status(200).send(`Password Hashing Error: ${err}`);
+                };
+                usersRepository.findOneBy({
+                    username: username
+                }).then(res => console.log(res)).catch(err => console.log(err));
             });
         });
     };
 
     async login( username: string, password: string, res: Response ) {
-        const user = await appDataSource.manager.findOneBy( Users, { username: username } );
+        const user = await usersRepository.findOneBy({ username: username });
         const dbPassword = <string>user?.password;
         const result = await bcrypt.compare( password, dbPassword );
         if ( result ) {
