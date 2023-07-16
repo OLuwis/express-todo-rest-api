@@ -1,35 +1,39 @@
 import bcrypt from "bcrypt";
-import jsonwebtoken from "jsonwebtoken";
+import jsonwebtoken, { Secret } from "jsonwebtoken";
 import { Response } from "express";
 import { Users } from "../models/users.model.js";
 import { appDataSource } from "../configs/orm.config.js";
+import { envs } from "../configs/env.config.js";
 
 const usersRepository = appDataSource.getRepository(Users);
 
 export class AuthService {
-    signUp( username: string, password: string, res: Response ) {
-        bcrypt.genSalt(10, (err, salt) => {
-            if (err) {
-                return res.status(200).send(`Password Encryption Error: ${err}`);
-            };
-            bcrypt.hash(password, salt, (err, hashed) => {
-                if (err) {
-                    return res.status(200).send(`Password Hashing Error: ${err}`);
-                };
-                usersRepository.findOneBy({
-                    username: username
-                }).then(res => console.log(res)).catch(err => console.log(err));
-            });
-        });
+    signUp( reqUsername: string, reqPassword: string, res: Response ) {
+        usersRepository.findOneBy({ username: reqUsername }).then(user => {
+            return !user ? bcrypt.genSalt(10, (err, mySalt) => {
+                return !err ? bcrypt.hash(reqPassword, mySalt).then(hash => {
+                    const newUser = usersRepository.create({
+                        username: reqUsername,
+                        salt: mySalt,
+                        password: hash
+                    });
+                    usersRepository.insert(newUser);
+                    res.status(201).send("User created!");
+                }).catch(err => res.status(200).send(`Error: ${err}`))
+                : res.status(200).send(`Error: ${err}`);
+            }) : res.status(409).send("Username already taken!")
+        }).catch(err => res.status(200).send(`Error: ${err}`));
     };
 
-    async login( username: string, password: string, res: Response ) {
-        const user = await usersRepository.findOneBy({ username: username });
-        const dbPassword = <string>user?.password;
-        const result = await bcrypt.compare( password, dbPassword );
-        if ( result ) {
-            const token = jsonwebtoken.sign({ yourUsername: username, yourPassword: password }, "secret" );
-            res.send(token);
-        };
+    login( reqUsername: string, reqPassword: string, res: Response ) {
+        usersRepository.findOneBy({
+            username: reqUsername
+        }).then(user => {
+            return user ? bcrypt.compare(reqPassword, user.password).then(isEqual => {
+                return isEqual ? res.status(200).send(jsonwebtoken.sign({ userId: user.user_id, username: user.username}, <Secret>envs.JWT_SECRET))
+                : res.status(409).send("Wrong Password!");
+            }).catch(err => res.status(200).send(`Error: ${err}`))
+            : res.status(404).send("User not found!");
+        }).catch(err => res.status(200).send(`Error: ${err}`));
     };
 };

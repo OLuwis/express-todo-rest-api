@@ -6,5 +6,6 @@ export const envs = {
     "DB_PORT": <number|undefined> process.env.DB_PORT,
     "DB_USERNAME": process.env.DB_USERNAME,
     "DB_PASSWORD": process.env.DB_PASSWORD,
-    "DB_NAME": process.env.DB_NAME
+    "DB_NAME": process.env.DB_NAME,
+    "JWT_SECRET": process.env.JWT_SECRET
 };
