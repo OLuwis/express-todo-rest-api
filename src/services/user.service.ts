@@ -7,7 +7,7 @@ import { envs } from "../configs/env.config.js";
 
 const usersRepository = appDataSource.getRepository(Users);
 
-export class AuthService {
+export class UserService {
     signUp( reqUsername: string, reqPassword: string, res: Response ) {
         usersRepository.findOneBy({ username: reqUsername }).then(user => {
             return !user ? bcrypt.genSalt(10, (err, mySalt) => {

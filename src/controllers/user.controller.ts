@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { AuthService } from "../services/auth.service.js";
+import { UserService } from "../services/user.service.js";
 
-const authService = new AuthService();
+const authService = new UserService();
 
 export class UserController {
     signUp(req: Request, res: Response) {
