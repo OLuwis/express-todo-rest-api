@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
 import { UserService } from "../services/user.service.js";
 
-const authService = new UserService();
+const userService = new UserService();
 
 export class UserController {
     signUp(req: Request, res: Response) {
         if (req.body.username && req.body.password) {
-            return authService.signUp(<string>req.body.username, <string>req.body.password, res);
+            return userService.signUp(<string>req.body.username, <string>req.body.password, res);
         };
     };
 
@@ -14,7 +14,7 @@ export class UserController {
         const username = <string|undefined>req.body.username;
         const password = <string|undefined>req.body.password;
         if (username && password) {
-            return authService.login(<string>username, <string>password, res);
+            return userService.login(<string>username, <string>password, res);
         };
     };
 };

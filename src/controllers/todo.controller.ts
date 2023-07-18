@@ -1,23 +1,18 @@
 import { Request, Response } from "express";
 import { Todos } from "../models/todos.model.js";
 import { appDataSource } from "../configs/orm.config.js";
+import { TodoService } from "../services/todo.service.js";
 
 const todosRepository = appDataSource.getRepository(Todos);
+const todoService = new TodoService();
 
 export class TodoController {
-    async viewTodo( req: Request, res: Response ) {
-        const todos = await todosRepository.findBy({ todoUserId: parseInt(req.params.id) });
-        console.log(todos);
-        res.send("All todos!");
+    viewTodo( req: Request, res: Response ) {
+        return todoService.viewTodo(<string>req.headers.authorization?.slice(7), res);
     };
 
-    async createTodo( req: Request, res: Response ) {
-        const todos = new Todos();
-        const todo = <string>req.query.todo;
-        todos.todo = todo;
-        todos.todoUserId = 1;
-        await todosRepository.save(todos);
-        res.send("Todo created!");
+    createTodo( req: Request, res: Response ) {
+        return todoService.createTodo(<string>req.headers.authorization?.slice(7), res, <string>req.query.todo);
     };
 
     async deleteTodo( req: Request, res: Response ) {
