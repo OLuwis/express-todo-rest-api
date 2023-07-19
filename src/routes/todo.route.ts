@@ -5,8 +5,8 @@ export const todoRouter = Router();
 
 const todoController = new TodoController();
 
-todoRouter.get("/todo/view", ( req, res ) => todoController.viewTodo( req, res ));
-todoRouter.post("/todo/create", ( req, res ) => todoController.createTodo( req, res ));
-todoRouter.delete("/todo/delete/:id", ( req, res ) => todoController.deleteTodo( req, res ));
-todoRouter.patch("/todo/complete/:id", ( req, res ) => todoController.completeTodo( req, res ));
-todoRouter.patch("/todo/update/:id", ( req, res ) => todoController.updateTodo( req, res ));
+todoRouter.get("/todo/get", ( req, res ) => todoController.get( req, res ));
+todoRouter.post("/todo/create", ( req, res ) => todoController.create( req, res ));
+todoRouter.delete("/todo/delete/:id", ( req, res ) => todoController.delete( req, res ));
+todoRouter.put("/todo/update/:id", ( req, res ) => todoController.update( req, res ));
+todoRouter.patch("/todo/complete/:id", ( req, res ) => todoController.complete( req, res ));

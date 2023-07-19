@@ -7,26 +7,23 @@ const todosRepository = appDataSource.getRepository(Todos);
 const todoService = new TodoService();
 
 export class TodoController {
-    viewTodo( req: Request, res: Response ) {
-        return todoService.viewTodo(<string>req.headers.authorization?.slice(7), res);
+    get( req: Request, res: Response ) {
+        return todoService.getTodo(<string>req.headers.authorization?.slice(7), res);
     };
 
-    createTodo( req: Request, res: Response ) {
-        return todoService.createTodo(<string>req.headers.authorization?.slice(7), res, <string>req.query.todo);
+    create( req: Request, res: Response ) {
+        return todoService.createTodo(<string>req.headers.authorization?.slice(7), res, <string>req.body.newTodo);
     };
 
-    async deleteTodo( req: Request, res: Response ) {
-        await todosRepository.delete(req.params.id);
-        res.send("Todo deleted!");
+    delete( req: Request, res: Response ) {
+        return todoService.deleteTodo(<string>req.headers.authorization?.slice(7), res, parseInt(req.params.id));
     };
 
-    async updateTodo( req: Request, res: Response ) {
-        await todosRepository.update(req.params.id, { todo: <string>req.query.todo });
-        res.send("Todo updated!");
+    update( req: Request, res: Response ) {
+        return todoService.updateTodo(<string>req.headers.authorization?.slice(7), res, parseInt(req.params.id), <string>req.body.newTodo, <boolean>req.body.status);
     };
 
-    async completeTodo( req: Request, res: Response ) {
-        await todosRepository.update(req.params.id, { todoCompleted: true });
-        res.send("Todo completed!");
+    complete( req: Request, res: Response ) {
+        return todoService.completeTodo(<string>req.headers.authorization?.slice(7), res, parseInt(req.params.id));
     };
 };
