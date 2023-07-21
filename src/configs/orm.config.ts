@@ -2,8 +2,8 @@ import "dotenv/config";
 import "reflect-metadata";
 import { env } from "process";
 import { DataSource } from "typeorm";
-import { Users } from "../models/users.model.js";
-import { Todos } from "../models/todos.model.js";
+import { Users } from "../models/users.model";
+import { Todos } from "../models/todos.model";
 
 export const appDataSource = new DataSource ({
     type: "postgres",

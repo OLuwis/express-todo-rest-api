@@ -1,9 +1,9 @@
 import "dotenv/config";
 import { env } from "process";
 import { Response } from "express";
-import { Todos } from "../models/todos.model.js";
+import { Todos } from "models/todos.model";
 import jsonwebtoken, { Secret } from "jsonwebtoken";
-import { appDataSource } from "../configs/orm.config.js";
+import { appDataSource } from "configs/orm.config";
 
 const todosRepository = appDataSource.getRepository(Todos);
 

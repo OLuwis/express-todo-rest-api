@@ -1,8 +1,8 @@
 import "dotenv/config";
 import express from "express";
 import { env } from "process";
-import { router } from "./routes/index.js";
-import { appDataSource } from "./configs/orm.config.js";
+import { router } from "./routes/index";
+import { appDataSource } from "./configs/orm.config";
 
 const app = express();
 
@@ -16,3 +16,5 @@ app.use(router);
 appDataSource.initialize().then(() => {
     console.log("PostgreSQL database connected");
 }).catch((err) => console.log(err));
+
+export default app

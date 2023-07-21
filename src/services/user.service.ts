@@ -2,9 +2,9 @@ import "dotenv/config";
 import bcrypt from "bcrypt";
 import { env } from "process";
 import { Response } from "express";
-import { Users } from "../models/users.model.js";
+import { Users } from "../models/users.model";
 import jsonwebtoken, { Secret } from "jsonwebtoken";
-import { appDataSource } from "../configs/orm.config.js";
+import { appDataSource } from "../configs/orm.config";
 
 const usersRepository = appDataSource.getRepository(Users);
 
