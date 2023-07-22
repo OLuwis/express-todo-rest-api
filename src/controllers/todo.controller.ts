@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { Todos } from "../models/todos.model";
-import { appDataSource } from "../configs/orm.config";
-import { TodoService } from "../services/todo.service";
+import { Todos } from "../models/todos.model.js";
+import { appDataSource } from "../configs/orm.config.js";
+import { TodoService } from "../services/todo.service.js";
 
 const todosRepository = appDataSource.getRepository(Todos);
 const todoService = new TodoService();

@@ -1,8 +1,8 @@
 import "dotenv/config";
 import express from "express";
 import { env } from "process";
-import { router } from "./routes/index";
-import { appDataSource } from "./configs/orm.config";
+import { router } from "./routes/index.js";
+import { appDataSource } from "./configs/orm.config.js";
 
 const app = express();
 
