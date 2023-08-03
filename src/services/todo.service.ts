@@ -13,7 +13,7 @@ export class TodoService {
         todosRepository.findBy({
             todoUserId: userInfo.userId
         }).then(todos => {
-            console.log(todos);
+            res.status(200).send(todos);
         }).catch(err => res.status(200).send(err));
     };
 
