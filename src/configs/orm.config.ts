@@ -5,13 +5,14 @@ import { DataSource } from "typeorm";
 import { Users } from "../models/users.model.js";
 import { Todos } from "../models/todos.model.js";
 
+// Db config
 export const appDataSource = new DataSource ({
     type: "postgres",
-    host: process.env.DB_HOST,
-    port: <number><unknown>process.env.DB_PORT,
-    username: process.env.DB_USERNAME,
+    host: "localhost",
+    port: 5432,
+    username: "postgres",
     password: env.DB_PASSWORD,
-    database: process.env.DB_NAME,
+    database: "postgres",
     entities: [ Users, Todos ],
     synchronize: true,
     logging: false

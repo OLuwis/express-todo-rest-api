@@ -1,11 +1,10 @@
 import { Request, Response } from "express";
-import { Todos } from "../models/todos.model.js";
-import { appDataSource } from "../configs/orm.config.js";
 import { TodoService } from "../services/todo.service.js";
 
-const todosRepository = appDataSource.getRepository(Todos);
+// Create an instance of todo service
 const todoService = new TodoService();
 
+// Create a class to map todo route methods
 export class TodoController {
     get( req: Request, res: Response ) {
         return todoService.getTodo(<string>req.headers.authorization?.slice(7), res);

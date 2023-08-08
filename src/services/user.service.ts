@@ -6,10 +6,12 @@ import { Users } from "../models/users.model.js";
 import jsonwebtoken, { Secret } from "jsonwebtoken";
 import { appDataSource } from "../configs/orm.config.js";
 
+// Create an user model instance
 const usersRepository = appDataSource.getRepository(Users);
 
 export class UserService {
     signUp( reqUsername: string, reqPassword: string, res: Response ) {
+        // Search if username already exists, then encrypt password and insert in the db
         usersRepository.findOneBy({ username: reqUsername }).then(user => {
             return !user ? bcrypt.genSalt(10, (err, mySalt) => {
                 return !err ? bcrypt.hash(reqPassword, mySalt).then(hash => {
@@ -26,6 +28,7 @@ export class UserService {
     };
 
     login( reqUsername: string, reqPassword: string, res: Response ) {
+        // Search for user in db and compare the db password with the one provided, than returns a jwt token
         usersRepository.findOneBy({
             username: reqUsername
         }).then(user => {
