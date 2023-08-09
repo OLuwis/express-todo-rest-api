@@ -19,12 +19,17 @@ Esta API possui um sistema de cadastro e login, e também possui um sistema de C
     ```
     npm install
     ```
-3. __Crie um arquivo .env e defina as variáveis de ambiente__
+3. __Crie um arquivo .env e defina as variáveis de ambiente (exemplo:)__
+    ```
+    APP_PORT=3000
+    DB_PASSWORD=1234
+    SECRET=exemplo
+    ```
 4. __Inicie a aplicação__
     ```
     npm run dev
     ```
-5. __Cheque se a aplicação está rodando (exemplo de mensagem)__
+5. __Cheque se a aplicação está rodando (exemplo:)__
     ```
     Server running on http://localhost:3000
     PostgreSQL database connected
