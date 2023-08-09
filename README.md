@@ -6,8 +6,8 @@ Esta API possui um sistema de cadastro e login, e também possui um sistema de C
 
 ### Requisitos
 
-* __[Node](https://nodejs.org/pt-br/download) v18+__
-* __[PostgreSQL](https://www.postgresql.org/download) v15+__
+* [Node](https://nodejs.org/pt-br/download) v18+
+* [PostgreSQL](https://www.postgresql.org/download) v15+
 
 ### Instruções
 
